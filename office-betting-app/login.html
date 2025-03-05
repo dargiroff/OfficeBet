@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>OfficeBet - Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Dark mode stylesheet (initially disabled) -->
+    <link rel="stylesheet" href="dark-mode.css" id="dark-mode-stylesheet" disabled>
+    <!-- Add enhanced favicon support -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎲</text></svg>">
+    <style>
+        /* Inline styles to ensure they're applied */
+        :root {
+            --bg-color: #f7f7f9;
+            --text-color: #1d1d1f;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(210, 210, 215, 0.5);
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --button-bg: #0071e3;
+            --button-text: white;
+            --hover-bg: #e8e8ed;
+            --accent-color: #5e5ce6;
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #111113;
+            --text-color: #f5f5f7;
+            --card-bg: rgba(44, 44, 46, 0.9);
+            --border-color: rgba(58, 58, 60, 0.5);
+            --header-bg: rgba(28, 28, 30, 0.9);
+            --button-bg: #0a84ff;
+            --button-text: #ffffff;
+            --hover-bg: rgba(68, 68, 70, 0.5);
+            --accent-color: #5e5ce6;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem;
+            cursor: pointer;
+            border-bottom: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            border-bottom: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .form-content {
+            display: none;
+        }
+        
+        .form-content.active {
+            display: block;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+        
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: none;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        .error-message {
+            color: #ff3b30;
+            margin-top: 1rem;
+            text-align: center;
+            display: none;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .notification {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideIn 0.3s ease forwards;
+        }
+        
+        .notification.success {
+            background-color: #34c759;
+            color: white;
+        }
+        
+        .notification.error {
+            background-color: #ff3b30;
+            color: white;
+        }
+        
+        .notification-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin-left: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .fade-out {
+            animation: fadeOut 0.3s ease forwards;
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        /* Dark mode toggle button styles */
+        #theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
+        
+        #dark-mode-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            width: auto;
+        }
+        
+        #dark-mode-btn:hover {
+            opacity: 0.8;
+            transform: rotate(20deg);
+        }
+        
+        /* Animation for theme toggle */
+        .animated {
+            animation: rotate 0.4s ease-in-out;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Theme transition */
+        .theme-transition,
+        .theme-transition *,
+        .theme-transition *:before,
+        .theme-transition *:after {
+            transition: all 0.2s ease !important;
+            transition-delay: 0 !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="notification-container"></div>
+    
+    <!-- Add dark mode toggle button -->
+    <div id="theme-toggle">
+        <button id="dark-mode-btn" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+    
+    <div class="login-container">
+        <div class="logo">
+            <h1><i class="fas fa-dice icon"></i>OfficeBet</h1>
+        </div>
+        
+        <div class="card">
+            <div class="tabs">
+                <div class="tab active" data-tab="login">Login</div>
+                <div class="tab" data-tab="signup">Sign Up</div>
+            </div>
+            
+            <div class="form-content active" id="login-form">
+                <form id="login-form-element" onsubmit="return false;">
+                    <div class="input-group">
+                        <label for="login-username">Username</label>
+                        <input type="text" id="login-username" placeholder="Enter your username">
+                    </div>
+                    <div class="input-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password">
+                    </div>
+                    <button type="submit" id="login-btn"><i class="fas fa-sign-in-alt icon"></i>Login</button>
+                    <div class="error-message" id="login-error"></div>
+                </form>
+            </div>
+            
+            <div class="form-content" id="signup-form">
+                <form id="signup-form-element" onsubmit="return false;">
+                    <div class="input-group">
+                        <label for="signup-username">Username</label>
+                        <input type="text" id="signup-username" placeholder="Choose a username">
+                    </div>
+                    <div class="input-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="Choose a password">
+                    </div>
+                    <div class="input-group">
+                        <label for="signup-confirm-password">Confirm Password</label>
+                        <input type="password" id="signup-confirm-password" placeholder="Confirm your password">
+                    </div>
+                    <button type="submit" id="signup-btn"><i class="fas fa-user-plus icon"></i>Sign Up</button>
+                    <div class="error-message" id="signup-error"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="scripts/dataStore.js"></script>
+    <script src="scripts/ui.js"></script>
+    <script src="scripts/login.js"></script>
+</body>
+</html> 

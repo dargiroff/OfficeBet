@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Login</title>
+</head>
+<body>
+    <h1>Testing Login System</h1>
+    <button id="test-btn">Test Login</button>
+    <div id="result"></div>
+
+    <script src="scripts/dataStore.js"></script>
+    <script>
+        document.getElementById('test-btn').addEventListener('click', function() {
+            const resultDiv = document.getElementById('result');
+            
+            // Create admin user if it doesn't exist
+            const users = DataStore.getUsers();
+            console.log('Current users:', users);
+            
+            // Try to authenticate as admin
+            const result = DataStore.authenticateUser('admin', '1234');
+            console.log('Authentication result:', result);
+            
+            if (result.success) {
+                resultDiv.innerHTML = '<p style="color: green;">Login successful! Admin user exists and password is correct.</p>';
+                resultDiv.innerHTML += '<p>You can now go to <a href="login.html">login.html</a> to log in.</p>';
+            } else {
+                resultDiv.innerHTML = '<p style="color: red;">Login failed: ' + result.message + '</p>';
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>OfficeBet</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Dark mode stylesheet (initially disabled) -->
+    <link rel="stylesheet" href="dark-mode.css" id="dark-mode-stylesheet" disabled>
+    <!-- Add enhanced favicon support -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎲</text></svg>">
+    <style>
+        /* Inline styles to ensure they're applied */
+        :root {
+            --bg-color: #f7f7f9;
+            --text-color: #1d1d1f;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(210, 210, 215, 0.5);
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --button-bg: #0071e3;
+            --button-text: white;
+            --hover-bg: #e8e8ed;
+            --accent-color: #5e5ce6;
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #111113;
+            --text-color: #f5f5f7;
+            --card-bg: rgba(44, 44, 46, 0.9);
+            --border-color: rgba(58, 58, 60, 0.5);
+            --header-bg: rgba(28, 28, 30, 0.9);
+            --button-bg: #0a84ff;
+            --button-text: #ffffff;
+            --hover-bg: rgba(68, 68, 70, 0.5);
+            --accent-color: #5e5ce6;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .container {
+            background-color: var(--bg-color);
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+        
+        button {
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border: 1px solid var(--border-color);
+        }
+        
+        input, select {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Header with fixed positioning for the toggle */
+        header {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        /* Logo styling */
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Position the toggle button absolutely in the top right */
+        #theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
+        
+        #dark-mode-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        #dark-mode-btn:hover {
+            opacity: 0.8;
+            transform: rotate(20deg);
+        }
+        
+        /* Additional dark mode styles for other elements */
+        section {
+            background-color: var(--bg-color);
+        }
+        
+        h1, h2, h3, h4, p {
+            color: var(--text-color);
+        }
+        
+        table {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+        
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        tr:hover {
+            background-color: var(--hover-bg);
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .positive {
+            color: #34c759;
+            font-weight: bold;
+        }
+        
+        .negative {
+            color: #ff3b30;
+            font-weight: bold;
+        }
+        
+        /* Icon styles */
+        .icon {
+            margin-right: 8px;
+        }
+        
+        /* Animation for bet cards */
+        .bet-card {
+            transition: all 0.3s ease;
+        }
+        
+        /* Loading state */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-color);
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--border-color);
+            border-radius: 50%;
+            border-top-color: var(--button-bg);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Modal styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal.hidden {
+            display: none;
+        }
+        
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+        }
+        
+        .close-modal-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+        
+        .modal-body {
+            padding: 1rem;
+        }
+        
+        #balance-history-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        #balance-history-table th,
+        #balance-history-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        #balance-history-table th {
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        #balance-history-table tr:hover {
+            background-color: var(--hover-bg);
+        }
+        
+        .summary-row {
+            border-top: 2px solid var(--border-color);
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+        
+        .summary-row:hover {
+            background-color: rgba(0, 0, 0, 0.05) !important;
+        }
+        
+        #user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        #logout-btn, #balance-history-btn {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="notification-container"></div>
+    
+    <!-- Add dark mode toggle button -->
+    <div id="theme-toggle">
+        <button id="dark-mode-btn" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-dice icon"></i>OfficeBet</h1>
+        </header>
+
+        <section id="user-section">
+            <h2><i class="fas fa-user icon"></i>Welcome, <span id="current-user-name"></span>!</h2>
+            <div id="user-info" class="card">
+                <p><i class="fas fa-coins icon"></i>Balance: <span id="current-user-tokens">0</span> tokens</p>
+                <div class="user-actions">
+                    <button id="balance-history-btn" onclick="showBalanceHistory()"><i class="fas fa-history icon"></i>Balance History</button>
+                    <button id="logout-btn"><i class="fas fa-sign-out-alt icon"></i>Logout</button>
+                </div>
+            </div>
+            <div id="admin-controls" class="mt-4">
+                <button id="reset-data-btn" class="btn btn-danger"><i class="fas fa-trash icon"></i>Reset All Data</button>
+            </div>
+        </section>
+
+        <section id="create-bet-section">
+            <h2><i class="fas fa-plus-circle icon"></i>Create a New Bet</h2>
+            <div class="card">
+                <form id="create-bet-form" onsubmit="return false;">
+                    <div class="input-group">
+                        <label for="bet-description">Description:</label>
+                        <input type="text" id="bet-description" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Options:</label>
+                        <div id="options-container">
+                            <div class="option-input">
+                                <input type="text" class="bet-option" placeholder="Option 1" required oninput="updateCreatorOptions()">
+                                <button type="button" class="remove-option-btn hidden" onclick="removeOption(this)"><i class="fas fa-times"></i></button>
+                            </div>
+                            <div class="option-input">
+                                <input type="text" class="bet-option" placeholder="Option 2" required oninput="updateCreatorOptions()">
+                                <button type="button" class="remove-option-btn hidden" onclick="removeOption(this)"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        <button type="button" id="add-option-btn" onclick="addOption()"><i class="fas fa-plus icon"></i>Add Option</button>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="bet-stake"><i class="fas fa-coins icon"></i>Your Stake (tokens):</label>
+                        <input type="number" id="bet-stake" min="1" required>
+                        <small id="stake-note" class="admin-only hidden">Stake is required for all bets</small>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="bet-deadline"><i class="fas fa-clock icon"></i>Deadline:</label>
+                        <input type="datetime-local" id="bet-deadline" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="creator-option"><i class="fas fa-check-circle icon"></i>Your Bet:</label>
+                        <select id="creator-option" required>
+                            <option value="">-- Select your option --</option>
+                        </select>
+                        <small id="creator-option-note" class="admin-only hidden">As admin, selecting your bet is optional</small>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="create-bet-btn" onclick="handleCreateBet(event)"><i class="fas fa-check icon"></i>Create Bet</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="active-bets-section">
+            <h2><i class="fas fa-fire icon"></i>Active Bets</h2>
+            <div id="active-bets-container" class="bets-container">
+                <!-- Active bets will be displayed here -->
+                <p class="empty-message"><i class="fas fa-info-circle icon"></i>No active bets available.</p>
+            </div>
+        </section>
+
+        <section id="resolved-bets-section">
+            <h2><i class="fas fa-check-circle icon"></i>Resolved Bets</h2>
+            <div id="resolved-bets-container" class="bets-container">
+                <!-- Resolved bets will be displayed here -->
+                <p class="empty-message"><i class="fas fa-info-circle icon"></i>No resolved bets available.</p>
+            </div>
+        </section>
+
+        <section id="leaderboard-section">
+            <h2><i class="fas fa-trophy icon"></i>Leaderboard</h2>
+            <div class="card">
+                <table id="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>User</th>
+                            <th>Tokens</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body">
+                        <!-- Leaderboard data will be displayed here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <footer>
+            <p>© 2024 OfficeBet</p>
+        </footer>
+    </div>
+
+    <!-- Balance History Modal -->
+    <div id="balance-history-modal" class="modal hidden" onclick="if(event.target === this) closeBalanceHistoryModal()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Balance History</h3>
+                <button class="close-modal-btn" onclick="closeBalanceHistoryModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table id="balance-history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="balance-history-body">
+                        <!-- Balance history data will be displayed here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates for dynamic content -->
+    <template id="bet-card-template">
+        <div class="card bet-card">
+            <h3 class="bet-description"></h3>
+            <div class="bet-creator">Created by: <span></span></div>
+            <div class="bet-stake">Initial stake: <span></span> tokens</div>
+            <div class="bet-deadline">Deadline: <span></span></div>
+            <div class="bet-options">
+                <h4>Options:</h4>
+                <ul class="options-list"></ul>
+            </div>
+            <div class="bet-participants">
+                <h4>Participants:</h4>
+                <ul class="participants-list"></ul>
+            </div>
+            <div class="bet-actions"></div>
+        </div>
+    </template>
+
+    <template id="bet-action-template">
+        <button class="bet-action-btn"></button>
+    </template>
+
+    <template id="bet-option-template">
+        <button class="bet-option-btn"></button>
+    </template>
+
+    <template id="leaderboard-row-template">
+        <tr>
+            <td class="rank"></td>
+            <td class="username"></td>
+            <td class="tokens"></td>
+        </tr>
+    </template>
+
+    <!-- JavaScript Dependencies -->
+    <script src="scripts/dataStore.js"></script>
+    <script src="scripts/betManager.js"></script>
+    <script src="scripts/ui.js"></script>
+    <script src="scripts/darkMode.js"></script>
+    <script src="index.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>

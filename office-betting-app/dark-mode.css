@@ -1,0 +1,297 @@
+/* Dark mode styles - only applied when dark mode is active */
+[data-theme="dark"] body {
+    background-color: #111113 !important;
+    color: #f5f5f7 !important;
+}
+
+[data-theme="dark"] .container {
+    background-color: #111113 !important;
+}
+
+/* Header styling */
+[data-theme="dark"] header, 
+[data-theme="dark"] .container > header {
+    background-color: rgba(28, 28, 30, 0.9) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    color: #f5f5f7 !important;
+    border-color: rgba(58, 58, 60, 0.5) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="dark"] header h1 {
+    background: linear-gradient(135deg, #0a84ff, #5e5ce6) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    text-fill-color: transparent !important;
+}
+
+/* Section headers */
+[data-theme="dark"] section > h2,
+[data-theme="dark"] #active-bets-section > h2,
+[data-theme="dark"] #resolved-bets-section > h2,
+[data-theme="dark"] #leaderboard-section > h2 {
+    color: #f5f5f7 !important;
+    border-bottom: 1px solid rgba(58, 58, 60, 0.5) !important;
+}
+
+/* Cards and sections */
+[data-theme="dark"] .card, 
+[data-theme="dark"] section, 
+[data-theme="dark"] form, 
+[data-theme="dark"] .form-container {
+    background-color: rgba(44, 44, 46, 0.9) !important;
+    border-color: rgba(58, 58, 60, 0.5) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="dark"] .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Bet cards */
+[data-theme="dark"] .bet-card {
+    border-top: 5px solid #0a84ff !important;
+}
+
+[data-theme="dark"] .resolved-bet {
+    border-top: 5px solid #636366 !important;
+}
+
+/* Form elements */
+[data-theme="dark"] input, 
+[data-theme="dark"] select, 
+[data-theme="dark"] textarea {
+    background-color: rgba(58, 58, 60, 0.9) !important;
+    color: #f5f5f7 !important;
+    border-color: rgba(72, 72, 74, 0.8) !important;
+}
+
+[data-theme="dark"] input:focus, 
+[data-theme="dark"] select:focus, 
+[data-theme="dark"] textarea:focus {
+    border-color: #0a84ff !important;
+    box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3) !important;
+}
+
+[data-theme="dark"] input[readonly] {
+    background-color: #3a3a3c !important;
+    border-color: #48484a !important;
+    color: #8e8e93 !important;
+}
+
+/* Buttons */
+[data-theme="dark"] button {
+    background-color: #0a84ff !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="dark"] button:hover {
+    background-color: #409cff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25) !important;
+}
+
+[data-theme="dark"] #add-option-btn {
+    background-color: #5e5ce6 !important;
+}
+
+[data-theme="dark"] #add-option-btn:hover {
+    background-color: #7b79f1 !important;
+}
+
+/* Text elements */
+[data-theme="dark"] h1, 
+[data-theme="dark"] h2, 
+[data-theme="dark"] h3, 
+[data-theme="dark"] h4, 
+[data-theme="dark"] h5, 
+[data-theme="dark"] h6, 
+[data-theme="dark"] p, 
+[data-theme="dark"] label, 
+[data-theme="dark"] span {
+    color: #f5f5f7 !important;
+}
+
+/* Lists and options */
+[data-theme="dark"] .bet-participants h4, 
+[data-theme="dark"] .bet-options h4, 
+[data-theme="dark"] .participants-list li, 
+[data-theme="dark"] .options-list li {
+    color: #f5f5f7 !important;
+}
+
+[data-theme="dark"] .options-list li, 
+[data-theme="dark"] .participants-list li {
+    border-bottom: 1px solid rgba(58, 58, 60, 0.8) !important;
+}
+
+[data-theme="dark"] .options-list li:hover, 
+[data-theme="dark"] .participants-list li:hover {
+    background-color: rgba(68, 68, 70, 0.5) !important;
+}
+
+/* Dark mode toggle button */
+[data-theme="dark"] #dark-mode-btn {
+    color: #f5f5f7 !important;
+}
+
+[data-theme="dark"] #dark-mode-btn:hover {
+    opacity: 0.8;
+    transform: rotate(20deg);
+}
+
+/* Table styling */
+[data-theme="dark"] table {
+    background-color: rgba(44, 44, 46, 0.9) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="dark"] th {
+    background-color: rgba(58, 58, 60, 0.9) !important;
+    color: #f5f5f7 !important;
+}
+
+[data-theme="dark"] td {
+    border-color: rgba(58, 58, 60, 0.8) !important;
+}
+
+[data-theme="dark"] tr:hover td {
+    background-color: rgba(68, 68, 70, 0.3) !important;
+}
+
+/* Empty messages */
+[data-theme="dark"] .empty-message {
+    color: #8e8e93 !important;
+    background-color: rgba(44, 44, 46, 0.5) !important;
+    border: 1px dashed rgba(72, 72, 74, 0.8) !important;
+}
+
+/* Option buttons */
+[data-theme="dark"] .bet-option-btn {
+    background-color: rgba(58, 58, 60, 0.9) !important;
+    color: #f5f5f7 !important;
+    border: 1px solid rgba(72, 72, 74, 0.8) !important;
+}
+
+[data-theme="dark"] .bet-option-btn:hover {
+    background-color: rgba(68, 68, 70, 0.9) !important;
+    transform: translateY(-1px);
+}
+
+[data-theme="dark"] .bet-option-btn.selected {
+    background-color: #0a84ff !important;
+    color: #ffffff !important;
+    border-color: #0a84ff !important;
+    box-shadow: 0 2px 5px rgba(10, 132, 255, 0.3) !important;
+}
+
+/* Winner indicators */
+[data-theme="dark"] .winner {
+    background-color: rgba(48, 209, 88, 0.15) !important;
+    border-left: 5px solid #30d158 !important;
+}
+
+/* Error messages */
+[data-theme="dark"] .error {
+    color: #ff453a !important;
+    background-color: rgba(255, 69, 58, 0.15) !important;
+}
+
+/* Notification styles */
+[data-theme="dark"] .notification {
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3) !important;
+    background-color: rgba(44, 44, 46, 0.95) !important;
+}
+
+[data-theme="dark"] .notification.error {
+    background-color: rgba(255, 69, 58, 0.2) !important;
+    color: #ff453a !important;
+    border-color: #ff453a !important;
+}
+
+[data-theme="dark"] .notification.success {
+    background-color: rgba(48, 209, 88, 0.2) !important;
+    color: #30d158 !important;
+    border-color: #30d158 !important;
+}
+
+[data-theme="dark"] .notification.info {
+    background-color: rgba(10, 132, 255, 0.2) !important;
+    color: #0a84ff !important;
+    border-color: #0a84ff !important;
+}
+
+/* Admin styles in dark mode */
+[data-theme="dark"] .admin-title {
+    color: #ff453a !important;
+}
+
+[data-theme="dark"] .admin-note {
+    background-color: rgba(255, 69, 58, 0.1) !important;
+    border-left: 3px solid #ff453a !important;
+}
+
+[data-theme="dark"] .badge.admin {
+    background-color: rgba(255, 69, 58, 0.2) !important;
+    color: #ff453a !important;
+}
+
+[data-theme="dark"] .btn-danger {
+    background-color: #ff453a !important;
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .btn-danger:hover {
+    background-color: #ff3b30 !important;
+}
+
+[data-theme="dark"] .bet-resolved-by {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #8e8e93 !important;
+}
+
+[data-theme="dark"] .bet-resolved-by span {
+    color: #f5f5f7 !important;
+}
+
+[data-theme="dark"] .resolve-bet-btn {
+    background-color: #ff9f0a !important;
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .resolve-bet-btn:hover {
+    background-color: #ffb340 !important;
+}
+
+/* Pot Split Information Dark Mode Styles */
+.bet-pot-split {
+    background-color: rgba(94, 92, 230, 0.1);
+    border-left: 3px solid #5e5ce6;
+}
+
+.bet-pot-split h4 {
+    color: #5e5ce6;
+}
+
+.bet-pot-split p {
+    color: #8e8e93;
+}
+
+.bet-pot-split span {
+    color: #f5f5f7;
+}
+
+.admin-only.visible {
+    color: #ff453a;
+}
+
+.auto-stake-note {
+    color: #8e8e93;
+}
+
